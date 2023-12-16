@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Composition or inheritance
+title: Possibilities of abstractions
 author: @raymens77
 published: 2023-12-17
 ---
@@ -72,7 +72,7 @@ let fakeUserService userList =
 ```
 
 One way of having multiple abstracted implementations is to create a record that contains one or multiple function properties.
-This is a very succint (implies short and simple) way that is my preference for just that reason.
+This is a very succinct (implies short and simple) way that is my preference for just that reason.
 There are some downsides however...
 
 Named parameters are not supported. This will become an issue once you need multiple parameters and even more when these parameters are of the same type.
@@ -182,7 +182,7 @@ type RealUserServiceOptional(url, apiKey: string) =
 ```
 
 Documentation can be done similar to the record implementation but the more verbose XML documentation is also supported.
-This form allows you to refer to specific parameters and is especially helpfull if your code is being consumed by another (*non-F#*) dotnet library.
+This form allows you to refer to specific parameters and is especially helpful if your code is being consumed by another (*non-F#*) dotnet library.
 
 ```fsharp
 [<Interface>]
@@ -246,7 +246,7 @@ Even more of an issue when another implementation is added and therefore all the
 
 There are no winners or losers.
 
-For me personally I like to start in the most succint way possible, functions and data.
+For me personally I like to start in the most succinct way possible, functions and data.
 
 When later on a need develops that requires more control, or the need to have state, I usually refactor to a solution that is more OO than before.
 
