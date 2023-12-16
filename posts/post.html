@@ -1,0 +1,316 @@
+<html>
+  <head>
+
+        <script type="text/javascript">
+          var wsUri = "ws://localhost:8080/websocket";
+      function init()
+      {
+        websocket = new WebSocket(wsUri);
+        websocket.onclose = function(evt) { onClose(evt) };
+      }
+      function onClose(evt)
+      {
+        console.log('closing');
+        websocket.close();
+        document.location.reload();
+      }
+      window.addEventListener("load", init, false);
+      </script>
+            <meta charSet="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>
+      Raymens Blog
+    </title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans"/>
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/style/style.css"/>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="container">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="/">
+            <img src="/images/avatar.jpg" alt="Logo"/>
+          </a>
+          <span class="navbar-burger burger" data-target="navbarMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </div>
+        <div id="navbarMenu" class="navbar-menu">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+        </div>
+      </div>
+    </nav>
+    <section class="hero is-info is-medium is-bold">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title">
+            South is relative.
+          </h1>
+        </div>
+      </div>
+    </section>
+    <div class="container">
+      <section class="articles">
+        <div class="column is-8 is-offset-2">
+          <div class="card article">
+            <div class="card-content">
+              <div class="media-content has-text-centered">
+                <p class="title article-title">
+                  <a href="/posts/post.html">
+                    Composition or inheritance
+                  </a>
+                </p>
+                <p class="subtitle is-6 article-subtitle">
+                  <a href="#">
+                    @raymens77
+                  </a>
+                  on 2023-12-17
+                </p>
+              </div>
+              <div class="content article-body">
+                <p>Hi all,</p>
+<p>This is my first blog article so I'd appreciate your feedback, you can find me on <a href=""https://twitter.com/raymens77%22">Twitter / X</a>.
+I was hoping to touch on more subjects and in a more detailed way but I'm surprised by the time it takes to write.
+Something I hope I will be able to improve in the future.</p>
+<h1>Article</h1>
+<p>For several reasons you might need to construct types that need different implementations.
+Usually you want to keep the implementation details away from the consumer of that type.</p>
+<p>In case of C# this usually implies an interface with multiple implementations.
+Initially you can start with some basic functions where the first parameter is the interface.
+However, this might not scale or can become verbose.
+Especially when actual state is involved and other cross cutting concerns e.g. connections, caching, logging.</p>
+<p>Some examples of types where this could apply are:</p>
+<ul>
+<li>Abstract Database Service that needs a live connection while deployed and uses lists for tests</li>
+<li>Api client implementations where there's an API rate limit that must be kept track of</li>
+</ul>
+<!--more-->
+<!-- For example like the following example (not fully valid C#).
+```csharp
+interface IApiService
+{
+    Account GetAccount(string accountCode);
+}
+
+class ApiService : IApiService
+{
+    private readonly string url;
+    private readonly string apiKey;
+    private readonly HttpClient httpClient;
+
+    public ApiService(string url, string apiKey) 
+    {
+        this.url = url;
+        this.apiKey = apiKey;
+        this.httpClient = new HttpClient();
+        httpClient.DefaultRequestHeaders.Add("Authorization", apiKey);
+        httpClient.BaseAddress = url;
+    }
+
+    public Account GetAccount(string accountCode)
+    {
+        return httpClient.GetFromJsonAsync<Account>($"/account/{accountCode}");
+    }
+}
+``` -->
+<h2>Function records</h2>
+<pre><code class="language-fsharp">type UserService =
+    { GetUser: string -&gt; User }
+
+let realUserService url apiKey =
+    let httpClient = HttpClient()
+    httpClient.DefaultRequestHeaders.Add(&quot;Authorization&quot;, apiKey);
+    httpClient.BaseAddress &lt;- url;    
+    { GetUser = fun username -&gt; httpClient.GetFromJsonAsync&lt;User&gt;($&quot;/user/{username}&quot;) }
+
+let fakeUserService userList =
+    { GetUser = fun username -&gt; userList |&gt; List.tryFind (fun x -&gt; x.Username = username) }
+</code></pre>
+<p>One way of having multiple abstracted implementations is to create a record that contains one or multiple function properties.
+This is a very succint (implies short and simple) way that is my preference for just that reason.
+There are some downsides however...</p>
+<p>Named parameters are not supported. This will become an issue once you need multiple parameters and even more when these parameters are of the same type.
+There are some workarounds that can be applied, you could apply single case union types or create another record that contains all the parameters.</p>
+<p>Something like the following:</p>
+<pre><code class="language-fsharp">// use of &quot;Single case union type&quot;
+type Username = Username of string
+
+type UserService =
+    { GetUser: Username -&gt; User }
+
+// use of record
+type GetUserRequest = { Username : string }
+
+type UserService =
+    { GetUser: GetUserRequest -&gt; User }
+</code></pre>
+<p>Optional parameters are also in the strict sense not supported, but that can be bypassed by defining them with the <code>option</code> type.</p>
+<pre><code class="language-fsharp">// The bool could mean anything but in this case it's for &quot;is enabled&quot;.
+// If it's None it will be ignored and otherwise will check if the user is enabled or not.
+type UserService =
+    { GetUser: string -&gt; bool option -&gt; User }
+
+</code></pre>
+<p>Code Documentation and it's implementation within the IDEs is also quite important and even more so when the size and team increases.
+The support of documentation depends on the different subflavors applied.</p>
+<p>In the individual properties of the records you can write the shorthand <code>///</code> documentation and explain the meaning.</p>
+<pre><code class="language-fsharp">/// Manage Users
+type UserService =
+    {   /// Get User using username and an optional IsEnabled check
+        GetUser: string -&gt; bool option -&gt; User }
+
+</code></pre>
+<p>When your parameters are also properties you can be more precise by doing the following:</p>
+<pre><code class="language-fsharp">/// Define requirements for getting a user
+type GetUserRequestDoc = 
+    { /// The username of the user
+      Username: string
+      /// When `Some``, check if the user is enabled in case of true and disabled in case of false.
+      /// Do nothing when `None``.
+      IsEnabled: bool option }
+
+</code></pre>
+<h2>Inheritance</h2>
+<pre><code class="language-fsharp">[&lt;Interface&gt;]
+type IUserService =
+    abstract member GetUser: username: string -&gt; User
+
+type RealUserService(url, apiKey) =
+    let httpClient =
+        let client = new HttpClient()
+        client.DefaultRequestHeaders.Add(&quot;Authorization&quot;, apiKey);
+        client.BaseAddress &lt;- url
+        client
+
+    interface IUserService with
+        member this.GetUser(username) =
+            httpClient.GetFromJsonAsync&lt;User&gt;($&quot;/user/{username}&quot;)
+</code></pre>
+<p>This implementation should feel natural to the C# (and related) developers.
+There's an explicit interface that defines the contract what all implementations need to abide too.
+In thise case the service explicitly implements the interface.
+For me this always feels like a step back into being more verbose.
+It's like writing C# code while using F# syntax.</p>
+<p>The upside is that named parameters are very much possible as can be seen in the initial example.</p>
+<p>State can also be easily tracked within the object it self, which is visualized below.</p>
+<pre><code class="language-fsharp">// .....
+
+// for example a counter that could be to track for API rate limits
+let mutable counter = 0
+
+interface IUserService with
+    member this.GetUser(username) =
+        counter &lt;- counter + 1
+        httpClient.GetFromJsonAsync&lt;User&gt;($&quot;/user/{username}&quot;).Result
+</code></pre>
+<p>Optional parameters are also naturally supported.</p>
+<pre><code class="language-fsharp">// Optional parameters
+[&lt;Interface&gt;]
+type IUserServiceOptional =
+    abstract member GetUser: username: string * ?isEnabled : bool -&gt; User
+
+type RealUserServiceOptional(url, apiKey: string) =
+    // ...
+
+    interface IUserServiceOptional with
+        member this.GetUser(username, isEnabled) =
+            // isEnabled is an option
+            httpClient.GetFromJsonAsync&lt;User&gt;($&quot;/user/{username}&quot;).Result
+</code></pre>
+<p>Documentation can be done similar to the record implementation but the more verbose XML documentation is also supported.
+This form allows you to refer to specific parameters and is especially helpfull if your code is being consumed by another (<em>non-F#</em>) dotnet library.</p>
+<pre><code class="language-fsharp">[&lt;Interface&gt;]
+type IUserServiceOptionalDocs =
+    /// &lt;summary&gt;
+    /// Gets a user by username
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;username&quot;&gt;Username used for searching&lt;/param&gt;
+    /// &lt;param name=&quot;isEnabled&quot;&gt;Verify if the user IsEnabled or not&lt;/param&gt;
+    abstract member GetUser: username: string * ?isEnabled : bool -&gt; User
+</code></pre>
+<h1>Alternatives</h1>
+<p>There are some more alternative ways of accomplishing similar things.
+Most likely even quite some that I'm not even familiar with.</p>
+<p>For example, you can make all of the required functions be supplied one by one like so.</p>
+<pre><code class="language-fsharp">let someMethodThatNeedsToGetAUserAndThenDelete
+    (getUser: string -&gt; User)
+    (deleteUser: User -&gt; bool)
+    =
+    let user = getUser &quot;raymen&quot;
+    deleteUser user
+</code></pre>
+<p>Which you can then also turn into a type itself...</p>
+<pre><code class="language-fsharp">type GetUser = string -&gt; User
+type DeleteUser = User -&gt; bool
+
+let someMethodThatNeedsToGetAUserAndThenDelete
+    (getUser: GetUser)
+    (deleteUser: DeleteUser)
+    =
+    let user = getUser &quot;raymen&quot;
+    deleteUser user
+</code></pre>
+<p>And also mix and match these tools with the record implementations mentioned before.</p>
+<p>A complete diffent take is to use Discriminated Unions together with functions like the following.</p>
+<pre><code class="language-fsharp">type UserServiceType = Real of HttpClient | Fake of User list
+
+let getUser username = function
+    | Real httpClient -&gt;  httpClient.GetFromJsonAsync&lt;User&gt;($&quot;/user/{username}&quot;).Result
+    | Fake userList -&gt; userList |&gt; List.find (fun x -&gt; x.Username = username)
+
+let realService = 
+    let client = new HttpClient()
+    client.DefaultRequestHeaders.Add(&quot;Authorization&quot;, &quot;key&quot;);
+    client.BaseAddress &lt;- &quot;Url&quot;
+    Real client
+let user =
+    getUser &quot;raymen&quot; realService
+</code></pre>
+<p>This can work in some scenarios, but the obvious limitation is that every single function must be aware of the implementation being used.
+Even more of an issue when another implementation is added and therefore all these functions need to be adjusted to support it.</p>
+<h1>Conclusion</h1>
+<p>There are no winners or losers.</p>
+<p>For me personally I like to start in the most succint way possible, functions and data.</p>
+<p>When later on a need develops that requires more control, or the need to have state, I usually refactor to a solution that is more OO than before.</p>
+<!-- 
+# Alternatives
+
+There are many more alternative ways of accomplishing
+
+
+
+### Pros
+Types
+
+## Currying
+
+```fsharp
+
+let getClient url apiKey =
+    let httpClient = HttpClient()
+    httpClient.DefaultRequestHeaders.Add("Authorization", apiKey);
+    httpClient.BaseAddress = url;
+
+let client = getClient url apiKey
+
+let realGetAccount httpClient accountCode = httpClient.GetFromJsonAsync<Account>($"/account/{accountCode}")
+
+let getAccount accountCode = realGetAccount client
+
+``` -->
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
