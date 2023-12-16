@@ -63,8 +63,8 @@
             <div class="card-content">
               <div class="media-content has-text-centered">
                 <p class="title article-title">
-                  <a href="/posts/post.html">
-                    Composition or inheritance
+                  <a href="/posts/type-abstractions.html">
+                    Possibilities of abstractions
                   </a>
                 </p>
                 <p class="subtitle is-6 article-subtitle">
@@ -134,7 +134,7 @@ let fakeUserService userList =
     { GetUser = fun username -&gt; userList |&gt; List.tryFind (fun x -&gt; x.Username = username) }
 </code></pre>
 <p>One way of having multiple abstracted implementations is to create a record that contains one or multiple function properties.
-This is a very succint (implies short and simple) way that is my preference for just that reason.
+This is a very succinct (implies short and simple) way that is my preference for just that reason.
 There are some downsides however...</p>
 <p>Named parameters are not supported. This will become an issue once you need multiple parameters and even more when these parameters are of the same type.
 There are some workarounds that can be applied, you could apply single case union types or create another record that contains all the parameters.</p>
@@ -225,7 +225,7 @@ type RealUserServiceOptional(url, apiKey: string) =
             httpClient.GetFromJsonAsync&lt;User&gt;($&quot;/user/{username}&quot;).Result
 </code></pre>
 <p>Documentation can be done similar to the record implementation but the more verbose XML documentation is also supported.
-This form allows you to refer to specific parameters and is especially helpfull if your code is being consumed by another (<em>non-F#</em>) dotnet library.</p>
+This form allows you to refer to specific parameters and is especially helpful if your code is being consumed by another (<em>non-F#</em>) dotnet library.</p>
 <pre><code class="language-fsharp">[&lt;Interface&gt;]
 type IUserServiceOptionalDocs =
     /// &lt;summary&gt;
@@ -277,7 +277,7 @@ let user =
 Even more of an issue when another implementation is added and therefore all these functions need to be adjusted to support it.</p>
 <h1>Conclusion</h1>
 <p>There are no winners or losers.</p>
-<p>For me personally I like to start in the most succint way possible, functions and data.</p>
+<p>For me personally I like to start in the most succinct way possible, functions and data.</p>
 <p>When later on a need develops that requires more control, or the need to have state, I usually refactor to a solution that is more OO than before.</p>
 <!-- 
 # Alternatives
