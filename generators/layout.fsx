@@ -94,7 +94,7 @@ let postLayout (useSummary: bool) (post: Postloader.Post) =
             div [Class "media-content has-text-centered"] [
                 p [Class "title article-title"; ] [ a [Href post.link] [!! post.title]]
                 p [Class "subtitle is-6 article-subtitle"] [
-                a [Href "#"] [!! (defaultArg post.author "")]
+                a [Href "https://twitter.com/raymens77"; Target "_blank" ] [!! (defaultArg post.author "")]
                 !! (sprintf "on %s" (published post))
                 ]
             ]

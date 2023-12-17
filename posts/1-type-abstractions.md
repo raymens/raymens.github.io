@@ -25,35 +25,7 @@ Some examples of types where this could apply are:
 - Abstract Database Service that needs a live connection while deployed and uses lists for tests
 - Api client implementations where there's an API rate limit that must be kept track of
 
-<!--more-->
-<!-- For example like the following example (not fully valid C#).
-```csharp
-interface IApiService
-{
-    Account GetAccount(string accountCode);
-}
-
-class ApiService : IApiService
-{
-    private readonly string url;
-    private readonly string apiKey;
-    private readonly HttpClient httpClient;
-
-    public ApiService(string url, string apiKey) 
-    {
-        this.url = url;
-        this.apiKey = apiKey;
-        this.httpClient = new HttpClient();
-        httpClient.DefaultRequestHeaders.Add("Authorization", apiKey);
-        httpClient.BaseAddress = url;
-    }
-
-    public Account GetAccount(string accountCode)
-    {
-        return httpClient.GetFromJsonAsync<Account>($"/account/{accountCode}");
-    }
-}
-``` -->
+[Read more...](./posts/type-abstractions.html)
 
 ## Function records
 
@@ -104,7 +76,7 @@ type UserService =
 ```
 
 Code Documentation and it's implementation within the IDEs is also quite important and even more so when the size and team increases.
-The support of documentation depends on the different subflavors applied.
+The support of documentation depends on the different sub-flavors applied.
 
 In the individual properties of the records you can write the shorthand `///` documentation and explain the meaning.
 ```fsharp
@@ -147,7 +119,7 @@ type RealUserService(url, apiKey) =
 
 This implementation should feel natural to the C# (and related) developers.
 There's an explicit interface that defines the contract what all implementations need to abide too.
-In thise case the service explicitly implements the interface.
+In this case the service explicitly implements the interface.
 For me this always feels like a step back into being more verbose.
 It's like writing C# code while using F# syntax.
 
@@ -223,7 +195,7 @@ let someMethodThatNeedsToGetAUserAndThenDelete
 ``` 
 And also mix and match these tools with the record implementations mentioned before.
 
-A complete diffent take is to use Discriminated Unions together with functions like the following.
+A complete different take is to use Discriminated Unions together with functions like the following.
 ```fsharp
 type UserServiceType = Real of HttpClient | Fake of User list
 
@@ -249,30 +221,3 @@ There are no winners or losers.
 For me personally I like to start in the most succinct way possible, functions and data.
 
 When later on a need develops that requires more control, or the need to have state, I usually refactor to a solution that is more OO than before.
-
-<!-- 
-# Alternatives
-
-There are many more alternative ways of accomplishing
-
-
-
-### Pros
-Types
-
-## Currying
-
-```fsharp
-
-let getClient url apiKey =
-    let httpClient = HttpClient()
-    httpClient.DefaultRequestHeaders.Add("Authorization", apiKey);
-    httpClient.BaseAddress = url;
-
-let client = getClient url apiKey
-
-let realGetAccount httpClient accountCode = httpClient.GetFromJsonAsync<Account>($"/account/{accountCode}")
-
-let getAccount accountCode = realGetAccount client
-
-``` -->
