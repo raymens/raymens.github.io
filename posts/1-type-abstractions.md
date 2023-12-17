@@ -25,7 +25,7 @@ Some examples of types where this could apply are:
 - Abstract Database Service that needs a live connection while deployed and uses lists for tests
 - Api client implementations where there's an API rate limit that must be kept track of
 
-[Read more...](./posts/type-abstractions.html)
+<!--more-->
 
 ## Function records
 
