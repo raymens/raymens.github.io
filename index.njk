@@ -1,0 +1,100 @@
+---
+layout: base.njk
+title: Home
+---
+{% from "icon.njk" import render as icon %}
+<section class="hero-section">
+  <div class="container">
+    <img class="hero-avatar" src="/images/avatar.jpg" alt="{{ profile.name }}">
+    <h1 class="hero-name">{{ profile.name }}</h1>
+    <p class="hero-role">{{ profile.role }}</p>
+    <p class="hero-tagline">{{ profile.tagline }}</p>
+    <div class="hero-socials">
+      {% for social in profile.socials %}
+      <a class="social-link" href="{{ social.url }}" target="_blank" rel="noopener" aria-label="{{ social.label }}">
+        {{ icon(social.icon) }}
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="page-section">
+  <div class="container">
+    <p class="bio-text">{{ profile.bio }}</p>
+  </div>
+</section>
+
+<section class="page-section">
+  <div class="container">
+    <h2 class="section-title">Projects</h2>
+    <div class="columns is-multiline">
+      {% for project in profile.projects %}
+      <div class="column is-4">
+        <div class="card project-card">
+          <div class="card-content">
+            <p class="title is-5">{{ project.name }}</p>
+            <p class="content project-description">{{ project.description }}</p>
+            <div class="tags">
+              {% for tag in project.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+            </div>
+            <div class="project-links">
+              {% if project.link %}<a href="{{ project.link }}" target="_blank" rel="noopener">Visit</a>{% endif %}
+              {% if project.sourceLink %}<a href="{{ project.sourceLink }}" target="_blank" rel="noopener">Source</a>{% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="page-section">
+  <div class="container">
+    <h2 class="section-title">Articles</h2>
+    {% if collections.posts.length %}
+    <ul class="article-list">
+      {% for post in collections.posts | reverse %}
+      <li class="article-entry">
+        <a class="article-entry-title" href="{{ post.url }}">{{ post.data.title }}</a>
+        <span class="article-entry-date">{{ post.date | readableDate }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="empty-note">No articles yet.</p>
+    {% endif %}
+  </div>
+</section>
+
+<section class="page-section">
+  <div class="container">
+    <h2 class="section-title">Work Experience</h2>
+    <div class="timeline">
+      {% for job in profile.experience %}
+      <div class="timeline-item">
+        <div class="timeline-item-header">
+          <p class="timeline-item-role">{{ job.role }} · {{ job.company }}</p>
+          <span class="timeline-item-period">{{ job.period }}</span>
+        </div>
+        <p class="timeline-item-description">{{ job.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="page-section">
+  <div class="container">
+    <h2 class="section-title">OSS Contributions</h2>
+    <ul class="oss-list">
+      {% for oss in profile.ossContributions %}
+      <li class="oss-entry">
+        <a class="oss-entry-repo" href="{{ oss.link }}" target="_blank" rel="noopener">{{ oss.repo }}</a>
+        <p class="oss-entry-description">{{ oss.description }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

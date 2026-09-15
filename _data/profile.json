@@ -1,0 +1,54 @@
+{
+  "name": "Raymen",
+  "role": "Software Engineer",
+  "tagline": "I build reliable software, mostly in F#, and write about it.",
+  "bio": "I'm a software engineer with a focus on functional programming and pragmatic system design. This page collects the projects I've built, the articles I've written and where I've worked.",
+  "socials": [
+    { "label": "GitHub", "url": "https://github.com/raymens", "icon": "github" },
+    { "label": "Twitter / X", "url": "https://twitter.com/raymens77", "icon": "twitter" }
+  ],
+  "projects": [
+    {
+      "name": "Project One",
+      "description": "A short description of this project: what it does and why it's interesting.",
+      "tags": ["F#", "Web"],
+      "link": null,
+      "sourceLink": null
+    },
+    {
+      "name": "Project Two",
+      "description": "A short description of this project: what it does and why it's interesting.",
+      "tags": ["TypeScript", "Tooling"],
+      "link": null,
+      "sourceLink": null
+    },
+    {
+      "name": "Project Three",
+      "description": "A short description of this project: what it does and why it's interesting.",
+      "tags": ["C#", "Cloud"],
+      "link": null,
+      "sourceLink": null
+    }
+  ],
+  "experience": [
+    {
+      "role": "Software Engineer",
+      "company": "Company Name",
+      "period": "20XX — Present",
+      "description": "What you did and the impact you had in this role."
+    },
+    {
+      "role": "Software Engineer",
+      "company": "Previous Company",
+      "period": "20XX — 20XX",
+      "description": "What you did and the impact you had in this role."
+    }
+  ],
+  "ossContributions": [
+    {
+      "repo": "raymens/raymens.github.io",
+      "description": "Personal blog and portfolio, built with Eleventy.",
+      "link": "https://github.com/raymens/raymens.github.io"
+    }
+  ]
+}

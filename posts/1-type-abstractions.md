@@ -1,8 +1,7 @@
 ---
-layout: post
 title: Possibilities of abstractions
-author: @raymens77
-published: 2023-12-17
+author: "@raymens77"
+date: 2023-12-17
 ---
 
 Hi all,
