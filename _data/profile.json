@@ -1,0 +1,48 @@
+{
+  "name": "Raymen",
+  "role": "Software Engineer",
+  "tagline": "I build reliable software, mostly in F#, and write about it.",
+  "bio": "I'm a software engineer with a focus on functional programming and pragmatic system design. This page collects the projects I've built, the articles I've written and where I've worked.",
+  "socials": [
+    { "label": "GitHub", "url": "https://github.com/raymens", "icon": "github" },
+    { "label": "Twitter / X", "url": "https://twitter.com/raymens77", "icon": "twitter" }
+  ],
+  "projects": [
+    {
+      "name": "Galvaan",
+      "description": "A Rust CLI that keeps apps up to date from GitHub releases or direct package URLs, built so I could stop manually chasing new builds of the GitHub Copilot and ChatGPT desktop apps on my openSUSE Tumbleweed setup. It supports zypper, dnf, apt and pacman, with version pinning, prerelease tracking, self-updating and shell completions, and its integration tests spin up containers for each supported distro.",
+      "tags": ["Rust", "CLI", "Linux", "openSUSE Tumbleweed"],
+      "link": null,
+      "sourceLink": "https://github.com/raymens/galvaan"
+    },
+    {
+      "name": "Project Two",
+      "description": "A short description of this project: what it does and why it's interesting.",
+      "tags": ["TypeScript", "Tooling"],
+      "link": null,
+      "sourceLink": null
+    },
+    {
+      "name": "Project Three",
+      "description": "A short description of this project: what it does and why it's interesting.",
+      "tags": ["C#", "Cloud"],
+      "link": null,
+      "sourceLink": null
+    }
+  ],
+  "experience": [
+    {
+      "role": "Lead Developer",
+      "company": "Quantoz Technology",
+      "period": "20XX — Present",
+      "description": "Leading development of Quantoz Pay and Quantoz Nexus, Quantoz's tokenization, stablecoin and payment infrastructure. Nexus exposes APIs for compliant issuance and management of tokenized assets and E-Money Tokens (EURQ, EURD, USDQ) across SEPA, SWIFT, ACH and blockchain networks including Algorand, XRP Ledger and EVM chains, in production handling up to 200,000 transactions a day. Primary stack: C# / .NET."
+    }
+  ],
+  "ossContributions": [
+    {
+      "repo": "raymens/raymens.github.io",
+      "description": "Personal blog and portfolio, built with Eleventy.",
+      "link": "https://github.com/raymens/raymens.github.io"
+    }
+  ]
+}
