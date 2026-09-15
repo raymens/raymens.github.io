@@ -3,65 +3,122 @@
 
 open Html
 
-let generate' (ctx : SiteContents) (_: string) =
-  let posts = ctx.TryGetValues<Postloader.Post> () |> Option.defaultValue Seq.empty
-  let siteInfo = ctx.TryGetValue<Globalloader.SiteInfo> ()
-  let desc, postPageSize =
-    siteInfo
-    |> Option.map (fun si -> si.description, si.postPageSize)
-    |> Option.defaultValue ("", 10)
+let socialLink (social: Profileloader.SocialLink) =
+    a [Class "social-link"; Href social.url; Target "_blank"; Rel "noopener"] [
+        i [Class social.icon] []
+    ]
 
+let projectCard (project: Profileloader.Project) =
+    div [Class "column is-4"] [
+        div [Class "card project-card"] [
+            div [Class "card-content"] [
+                p [Class "title is-5"] [!! project.name]
+                p [Class "content project-description"] [!! project.description]
+                div [Class "tags"] [
+                    for tag in project.tags do
+                        yield span [Class "tag"] [!! tag]
+                ]
+                div [Class "project-links"] [
+                    for l in Option.toList project.link do
+                        yield a [Href l; Target "_blank"; Rel "noopener"] [!! "Visit"]
+                    for l in Option.toList project.sourceLink do
+                        yield a [Href l; Target "_blank"; Rel "noopener"] [!! "Source"]
+                ]
+            ]
+        ]
+    ]
 
-  let psts =
-    posts
-    |> Seq.sortByDescending Layout.published
-    |> Seq.toList
-    |> List.chunkBySize postPageSize
-    |> List.map (List.map (Layout.postLayout true))
+let articleEntry (post: Postloader.Post) =
+    li [Class "article-entry"] [
+        a [Class "article-entry-title"; Href post.link] [!! post.title]
+        span [Class "article-entry-date"] [!! (Layout.published post)]
+    ]
 
-  let pages = List.length psts
+let jobEntry (job: Profileloader.Job) =
+    div [Class "timeline-item"] [
+        div [Class "timeline-item-header"] [
+            p [Class "timeline-item-role"] [!! (sprintf "%s · %s" job.role job.company)]
+            span [Class "timeline-item-period"] [!! job.period]
+        ]
+        p [Class "timeline-item-description"] [!! job.description]
+    ]
 
-  let getFilenameForIndex i =
-    if i = 0 then
-      sprintf "index.html"
-    else
-      sprintf "posts/page%i.html" i
+let ossEntry (oss: Profileloader.OssContribution) =
+    li [Class "oss-entry"] [
+        a [Class "oss-entry-repo"; Href oss.link; Target "_blank"; Rel "noopener"] [!! oss.repo]
+        p [Class "oss-entry-description"] [!! oss.description]
+    ]
 
-  let layoutForPostSet i psts =
-    let nextPage =
-      if i = (pages - 1) then "#"
-      else "/" + getFilenameForIndex (i + 1)
+let generate' (ctx: SiteContents) (_: string) =
+    let posts =
+        ctx.TryGetValues<Postloader.Post> ()
+        |> Option.defaultValue Seq.empty
+        |> Seq.sortByDescending Layout.published
+        |> Seq.toList
 
-    let previousPage =
-      if i = 0 then "#"
-      else "/" + getFilenameForIndex (i - 1)
+    let emptyProfile: Profileloader.Profile =
+        { name = ""
+          role = ""
+          tagline = ""
+          bio = ""
+          socials = []
+          projects = []
+          experience = []
+          ossContributions = [] }
 
-    Layout.layout ctx "Home" [
-      section [Class "hero is-info is-medium is-bold"] [
-        div [Class "hero-body"] [
-          div [Class "container has-text-centered"] [
-            h1 [Class "title"] [!!desc]
+    let profile =
+        ctx.TryGetValue<Profileloader.Profile> ()
+        |> Option.defaultValue emptyProfile
+
+    [ "index.html",
+      Layout.layout ctx "Home" [
+          section [Class "hero-section"] [
+              div [Class "container"] [
+                  img [Class "hero-avatar"; Src "/images/avatar.jpg"; Alt profile.name]
+                  h1 [Class "hero-name"] [!! profile.name]
+                  p [Class "hero-role"] [!! profile.role]
+                  p [Class "hero-tagline"] [!! profile.tagline]
+                  div [Class "hero-socials"] (profile.socials |> List.map socialLink)
+              ]
           ]
-        ]
-      ]
-      div [Class "container"] [
-        section [Class "articles"] [
-          div [Class "column is-8 is-offset-2"] psts
-        ]
-      ]
-      div [Class "container"] [
-        div [Class "container has-text-centered"] [
-          a [Href previousPage] [!! "Previous"]
-          !! (sprintf "%i of %i" (i + 1) pages)
-          a [Href nextPage] [!! "Next"]
-        ]
-      ]]
 
-  psts
-  |> List.mapi (fun i psts ->
-    getFilenameForIndex i,
-    layoutForPostSet i psts
-    |> Layout.render ctx)
+          section [Class "page-section"] [
+              div [Class "container"] [
+                  p [Class "bio-text"] [!! profile.bio]
+              ]
+          ]
 
-let generate (ctx : SiteContents) (projectRoot: string) (page: string) =
-    generate' ctx page
+          section [Class "page-section"] [
+              div [Class "container"] [
+                  h2 [Class "section-title"] [!! "Projects"]
+                  div [Class "columns is-multiline"] (profile.projects |> List.map projectCard)
+              ]
+          ]
+
+          section [Class "page-section"] [
+              div [Class "container"] [
+                  h2 [Class "section-title"] [!! "Articles"]
+                  if List.isEmpty posts then
+                      p [Class "empty-note"] [!! "No articles yet."]
+                  else
+                      ul [Class "article-list"] (posts |> List.map articleEntry)
+              ]
+          ]
+
+          section [Class "page-section"] [
+              div [Class "container"] [
+                  h2 [Class "section-title"] [!! "Work Experience"]
+                  div [Class "timeline"] (profile.experience |> List.map jobEntry)
+              ]
+          ]
+
+          section [Class "page-section"] [
+              div [Class "container"] [
+                  h2 [Class "section-title"] [!! "OSS Contributions"]
+                  ul [Class "oss-list"] (profile.ossContributions |> List.map ossEntry)
+              ]
+          ]
+      ]
+      |> Layout.render ctx ]
+
+let generate (ctx: SiteContents) (projectRoot: string) (page: string) = generate' ctx page

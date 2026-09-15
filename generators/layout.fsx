@@ -3,6 +3,7 @@
 #load "../loaders/postloader.fsx"
 #load "../loaders/pageloader.fsx"
 #load "../loaders/globalloader.fsx"
+#load "../loaders/profileloader.fsx"
 #endif
 
 open Html
