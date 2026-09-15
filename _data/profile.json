@@ -32,16 +32,10 @@
   ],
   "experience": [
     {
-      "role": "Software Engineer",
-      "company": "Company Name",
+      "role": "Lead Developer",
+      "company": "Quantoz Technology",
       "period": "20XX — Present",
-      "description": "What you did and the impact you had in this role."
-    },
-    {
-      "role": "Software Engineer",
-      "company": "Previous Company",
-      "period": "20XX — 20XX",
-      "description": "What you did and the impact you had in this role."
+      "description": "Leading development of Quantoz Pay and Quantoz Nexus, Quantoz's tokenization, stablecoin and payment infrastructure. Nexus exposes APIs for compliant issuance and management of tokenized assets and E-Money Tokens (EURQ, EURD, USDQ) across SEPA, SWIFT, ACH and blockchain networks including Algorand, XRP Ledger and EVM chains, in production handling up to 200,000 transactions a day. Primary stack: C# / .NET."
     }
   ],
   "ossContributions": [
