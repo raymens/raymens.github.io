@@ -10,10 +10,10 @@
   "projects": [
     {
       "name": "Galvaan",
-      "description": "A tool I built to keep the GitHub Copilot desktop app and ChatGPT desktop app up to date on openSUSE Tumbleweed, since neither ships an easy way to auto-update on that setup.",
-      "tags": ["Linux", "openSUSE Tumbleweed", "Automation"],
+      "description": "A Rust CLI that keeps apps up to date from GitHub releases or direct package URLs, built so I could stop manually chasing new builds of the GitHub Copilot and ChatGPT desktop apps on my openSUSE Tumbleweed setup. It supports zypper, dnf, apt and pacman, with version pinning, prerelease tracking, self-updating and shell completions, and its integration tests spin up containers for each supported distro.",
+      "tags": ["Rust", "CLI", "Linux", "openSUSE Tumbleweed"],
       "link": null,
-      "sourceLink": null
+      "sourceLink": "https://github.com/raymens/galvaan"
     },
     {
       "name": "Project Two",
