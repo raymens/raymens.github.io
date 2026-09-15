@@ -9,9 +9,9 @@
   ],
   "projects": [
     {
-      "name": "Project One",
-      "description": "A short description of this project: what it does and why it's interesting.",
-      "tags": ["F#", "Web"],
+      "name": "Galvaan",
+      "description": "A tool I built to keep the GitHub Copilot desktop app and ChatGPT desktop app up to date on openSUSE Tumbleweed, since neither ships an easy way to auto-update on that setup.",
+      "tags": ["Linux", "openSUSE Tumbleweed", "Automation"],
       "link": null,
       "sourceLink": null
     },
