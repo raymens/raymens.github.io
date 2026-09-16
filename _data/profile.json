@@ -16,16 +16,16 @@
       "sourceLink": "https://github.com/raymens/galvaan"
     },
     {
-      "name": "Project Two",
-      "description": "A short description of this project: what it does and why it's interesting.",
-      "tags": ["TypeScript", "Tooling"],
+      "name": "TBD",
+      "description": "Future project — details coming soon.",
+      "tags": [],
       "link": null,
       "sourceLink": null
     },
     {
-      "name": "Project Three",
-      "description": "A short description of this project: what it does and why it's interesting.",
-      "tags": ["C#", "Cloud"],
+      "name": "TBD",
+      "description": "Future project — details coming soon.",
+      "tags": [],
       "link": null,
       "sourceLink": null
     }
@@ -35,14 +35,34 @@
       "role": "Lead Developer",
       "company": "Quantoz Technology",
       "period": "2015 — Present",
-      "description": "Leading development of Quantoz Pay and Quantoz Nexus, Quantoz's tokenization, stablecoin and payment infrastructure. Nexus exposes APIs for compliant issuance and management of tokenized assets and E-Money Tokens (EURQ, EURD, USDQ) across SEPA, SWIFT, ACH and blockchain networks including Algorand, XRP Ledger and EVM chains, in production handling up to 200,000 transactions a day. Primary stack: C# / .NET."
+      "description": "Leading development of Quantoz Pay and Quantoz Nexus, Quantoz's tokenization, stablecoin and payment infrastructure. Nexus exposes APIs for compliant issuance and management of tokenized assets and E-Money Tokens (EURQ, EURD, USDQ) across blockchain networks including Algorand, XRP Ledger and EVM chains, in production handling up to 200,000 transactions a day. Primary stack: C# / .NET."
     }
   ],
   "ossContributions": [
     {
-      "repo": "raymens/raymens.github.io",
-      "description": "Personal blog and portfolio, built with Eleventy.",
-      "link": "https://github.com/raymens/raymens.github.io"
+      "repo": "rouge-ruby/rouge",
+      "description": "Added F# syntax highlighting support (a new lexer adapted from the OCaml one), used by Jekyll and GitHub Pages.",
+      "link": "https://github.com/rouge-ruby/rouge/pull/286"
+    },
+    {
+      "repo": "fsprojects/FAKE",
+      "description": "Added GitHub release-notes generation support to the F# build automation tool.",
+      "link": "https://github.com/fsprojects/FAKE/pull/2751"
+    },
+    {
+      "repo": "cachix/devenv",
+      "description": "Added initial .NET support to the declarative developer environment tool.",
+      "link": "https://github.com/cachix/devenv/pull/42"
+    },
+    {
+      "repo": "CompositionalIT/farmer",
+      "description": "Added Azure DNS Zone support and the ability to disable IP masking/sampling for Application Insights.",
+      "link": "https://github.com/CompositionalIT/farmer/pull/360"
     }
+  ],
+  "interests": [
+    "openSUSE Tumbleweed",
+    "NixOS",
+    "Spectrum OS"
   ]
 }

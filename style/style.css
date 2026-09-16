@@ -121,6 +121,19 @@ html,body {
     font-weight: 600;
   }
 
+  .project-card-tbd {
+    border-style: dashed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .project-card-tbd .title,
+  .project-card-tbd .project-description {
+    color: var(--muted);
+  }
+
   .article-list,
   .oss-list {
     max-width: 40rem;
@@ -231,4 +244,23 @@ html,body {
     padding: 1rem;
     border-radius: 6px;
     overflow-x: auto;
+  }
+
+  .interest-list {
+    max-width: 40rem;
+    margin: 0 auto;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+
+  .interest-tag {
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    background: #eef1f8;
+    color: var(--ink);
+    font-size: 0.9rem;
+    font-weight: 600;
   }
