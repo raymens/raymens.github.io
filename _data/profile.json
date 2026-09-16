@@ -40,6 +40,11 @@
   ],
   "ossContributions": [
     {
+      "repo": "rouge-ruby/rouge",
+      "description": "Added F# syntax highlighting support (a new lexer adapted from the OCaml one), used by Jekyll and GitHub Pages.",
+      "link": "https://github.com/rouge-ruby/rouge/pull/286"
+    },
+    {
       "repo": "fsprojects/FAKE",
       "description": "Added GitHub release-notes generation support to the F# build automation tool.",
       "link": "https://github.com/fsprojects/FAKE/pull/2751"
