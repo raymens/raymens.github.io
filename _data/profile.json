@@ -40,19 +40,9 @@
   ],
   "ossContributions": [
     {
-      "repo": "NixOS/nixpkgs",
-      "description": "Updated the stellar-core package to a newer release.",
-      "link": "https://github.com/NixOS/nixpkgs/pull/167749"
-    },
-    {
       "repo": "fsprojects/FAKE",
       "description": "Added GitHub release-notes generation support to the F# build automation tool.",
       "link": "https://github.com/fsprojects/FAKE/pull/2751"
-    },
-    {
-      "repo": "Nethereum/Nethereum",
-      "description": "Migrated cryptography usage to BouncyCastle.Cryptography for net6.0+ and added support for Logging Abstractions 8.0.",
-      "link": "https://github.com/Nethereum/Nethereum/pull/1057"
     },
     {
       "repo": "cachix/devenv",
@@ -63,11 +53,6 @@
       "repo": "CompositionalIT/farmer",
       "description": "Added Azure DNS Zone support and the ability to disable IP masking/sampling for Application Insights.",
       "link": "https://github.com/CompositionalIT/farmer/pull/360"
-    },
-    {
-      "repo": "elucidsoft/dotnet-stellar-sdk",
-      "description": "Added support for a ServerUri that includes a path.",
-      "link": "https://github.com/elucidsoft/dotnet-stellar-sdk/pull/376"
     }
   ],
   "interests": [
